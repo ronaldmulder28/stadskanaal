@@ -1,33 +1,25 @@
 import time
 import random
 import datetime
-import os
 import hashlib
 
 LOG_FILE = "C:\\ProgramData\\miner_log.txt"
 
-def current_time():
-    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+def log(msg):
+    with open(LOG_FILE, "a", encoding="utf-8") as f:
+        f.write(f"[{datetime.datetime.now():%Y-%m-%d %H:%M:%S}] {msg}\n")
 
-def log_message(msg):
-    with open(LOG_FILE, "a") as f:
-        f.write(f"[{current_time()}] {msg}\n")
+log("Miner gestart - CPU mining actief")
 
-def mine():
-    log_message("Miner gestart. Hashrate: 1250 H/s")
-    while True:
-        nonce = random.randint(0, 10**8)
-        # Simuleer een 'hash berekening' met een fractie van CPU
-        attempt_hash = hashlib.sha256(f"block_{nonce}".encode()).hexdigest()[:8]
-        log_message(f"[INFO] Hash: {attempt_hash} | Nonce: {nonce}")
-        # Nep reward ~ elke 30-90 pogingen
-        if random.randint(1, 50) == 1:
-            reward = round(random.uniform(0.0001, 0.001), 6)
-            log_message(f"[REWARD] +{reward} BTC ontvangen! Totaal: [GESIMULEERD]")
-        time.sleep(15)   # Laag CPU-gebruik, maar genoeg voor het gevoel
-
-if __name__ == "__main__":
-    try:
-        mine()
-    except Exception as e:
-        log_message(f"FOUT: {e}")
+while True:
+    # Nep hash berekening die CPU gebruikt
+    for _ in range(2000):                     # Meer loops = hogere CPU-belasting
+        data = f"block_{random.randint(0, 10**8)}".encode()
+        hashlib.sha256(data).hexdigest()
+    
+    # Af en toe een nep reward in het log
+    if random.randint(1, 15) == 1:
+        log(f"Reward ontvangen: {round(random.uniform(0.0005, 0.003), 6)} BTC")
+    
+    # Korte pauze om CPU niet 100% te laten pieken (pas aan naar wens)
+    time.sleep(0.02)
