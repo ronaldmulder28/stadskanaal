@@ -1,20 +1,21 @@
 import time
 import hashlib
-import random
 
 LOG_FILE = "C:\\ProgramData\\miner_log.txt"
 
-while True:
-    # Doe wat rekenwerk (hash berekenen)
-    nonce = 0
-    while nonce < 10000:   # 10.000 iteraties per cyclus
-        data = f"{nonce}{random.random()}".encode()
-        hash_result = hashlib.sha256(data).hexdigest()
-        nonce += 1
+def mine():
+    counter = 0
+    while True:
+        # Blijven hashen (CPU intensief)
+        for i in range(100000):
+            hashlib.sha256(f"{counter}{i}".encode()).hexdigest()
+        
+        # Elke 100.000 iteraties een logregel
+        with open(LOG_FILE, "a") as f:
+            f.write(f"{time.ctime()} - Cycle {counter} done\n")
+        
+        counter += 1
+        time.sleep(0.0001)  # Kleine pauze, CPU blijft hoog
 
-    # Schrijf een logregel
-    with open(LOG_FILE, "a") as f:
-        f.write(f"{time.ctime()} - Mijncyclus voltooid\n")
-
-    # Korte pauze om de laptop niet helemaal vast te laten lopen
-    time.sleep(0.5)
+if __name__ == "__main__":
+    mine()
