@@ -1,16 +1,16 @@
-Dim zinnen(7)
-zinnen(0) = "Je toetsenbord wordt nu uitgelezen."
-zinnen(1) = "Ik zie alles wat je typt."
-zinnen(2) = "De miner draait op volle kracht."
-zinnen(3) = "Je computer is van mij. Grapje. Of toch niet?"
-zinnen(4) = "Kijk eens naar je CPU-gebruik. Grappig, hè?"
-zinnen(5) = "Heb je al een screenshot gezien? Nee? Ik wel."
-zinnen(6) = "Je wachtwoord is misschien niet zo veilig als je denkt."
-zinnen(7) = "Ik ben een vriendelijke malware. Veel plezier!"
+Dim bestanden(4)
+bestanden(0) = "C:\ProgramData\ronjans.mp3"
+bestanden(1) = "C:\ProgramData\brainrot_rap.mp3"
+bestanden(2) = "C:\ProgramData\max33.mp3"
+bestanden(3) = "C:\ProgramData\biggel.mp3"
+bestanden(4) = "C:\ProgramData\rutte.mp3"
 
 Randomize
 Do
-    index = Int(Rnd * 8)
-    CreateObject("SAPI.SpVoice").Speak zinnen(index)
-    WScript.Sleep 300000  ' 5 minuten
+    index = Int(Rnd * 5)
+    CreateObject("WMPlayer.OCX").URL = bestanden(index)
+    Do While CreateObject("WMPlayer.OCX").playState <> 1
+        WScript.Sleep 100
+    Loop
+    WScript.Sleep 300000
 Loop
